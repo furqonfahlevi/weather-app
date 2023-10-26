@@ -101,15 +101,24 @@
   </div>
 </template>
 <script lang="ts">
+import { ref, onMounted } from "vue";
+
 export default {
-  methods: {
-    getUserLocation() {
+  setup() {
+    const latitude = ref();
+    const longitude = ref();
+    const weatherData = ref();
+
+    const getUserLocation = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+            latitude.value = position.coords.latitude;
+            longitude.value = position.coords.longitude;
+            console.log(
+              `Latitude: ${latitude.value}, Longitude: ${longitude.value}`
+            );
+            getWeatherData();
           },
           (error) => {
             console.error("Error Code = " + error.code + " - " + error.message);
@@ -118,10 +127,30 @@ export default {
       } else {
         console.error("Geolocation is not supported by this browser.");
       }
-    },
-  },
-  mounted() {
-    this.getUserLocation();
+    };
+
+    const getWeatherData = async () => {
+      const apiKey = "0f4e10acc115cb99e96f5a70c059d0b7"; // Replace with your API key
+      const endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.value}&lon=${longitude.value}&appid=${apiKey}`;
+
+      try {
+        const response = await fetch(endpoint);
+        const data = await response.json();
+        weatherData.value = data;
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      }
+    };
+
+    onMounted(() => {
+      getUserLocation();
+    });
+
+    return {
+      latitude,
+      longitude,
+      weatherData,
+    };
   },
 };
 </script>
