@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/tailwindcss"], ['@nuxtjs/dotenv'], ['@nuxtjs/axios'],
   css: ["~/assets/css/tailwind.css"],
 });
