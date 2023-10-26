@@ -1,5 +1,5 @@
 <template>
-  <div class="text-red-500">
+  <div class="">
     <!-- <NuxtWelcome /> -->
     asd
   </div>

@@ -1,3 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  /* Background */
+  --bg-primary: #0b131e;
+  --bg-secondary: #202b3b;
+
+  /* Hover */
+  --hover-primary: #0095ff;
+
+  /* Text */
+  --text-primary: #8f959f;
+  --text-secondary: #fff;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
+}
