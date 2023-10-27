@@ -1,21 +1,22 @@
 <template>
-  <div
-    class="w-[1280px] mx-auto flex flex-col justify-center items-center py-4 px-2"
-  >
-    <div class="w-full flex items-center gap-4">
+  <div class="w-full mx-auto flex flex-col justify-center items-center p-10">
+    <div class="w-full flex flex-col sm:flex-row items-center gap-4">
       <img
         class="w-[48px] h-[48px] hover:cursor-pointer"
         src="./src/assets/images/icon.png"
         alt="Weather App Icon"
+        onclick="iconRefresh()"
       />
-      <h1 class="text-xl text-white">Weather App</h1>
+      <h1 class="text-xl text-white invisible sm:visible">Weather App</h1>
     </div>
-    <div class="flex w-full mt-20">
-      <div class="w-full flex flex-col gap-8 px-2">
-        <div class="flex justify-between items-center w-3/4 mx-auto">
+    <div class="flex w-full mt-20 flex-col sm:flex-row gap-8">
+      <div class="w-full px-2">
+        <div
+          class="sm:w-3/4 mx-auto flex flex-col sm:flex-row justify-between items-center gap-8"
+        >
           <div class="flex flex-col gap-10">
             <div class="flex flex-col gap-2">
-              <h1 class="text-5xl font-bold text-white">
+              <h1 class="text-2xl font-bold text-white sm:text-xl lg:text-5xl">
                 {{ weatherData?.name }}, {{ weatherData?.sys?.country }}
               </h1>
               <p class="text-primary font-light capitalize">
@@ -23,7 +24,9 @@
               </p>
             </div>
             <div>
-              <p class="text-7xl font-bold text-white">
+              <p
+                class="text-7xl font-bold text-white text-center sm:text-left sm:text-5xl lg:text-7xl"
+              >
                 {{ Math.round(weatherData?.main?.temp - 273.15) }}°
               </p>
             </div>
@@ -40,16 +43,16 @@
           </div>
         </div>
         <div
-          class="flex flex-col gap-4 bg-secondary p-8 text-primary rounded-xl"
+          class="sm:w-5/6 mx-auto flex flex-col gap-4 bg-secondary p-8 text-primary rounded-xl mt-8"
         >
           <p class="uppercase font-bold">Air Conditions</p>
-          <div class="grid grid-cols-2 gap-8 content-center">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 content-center">
             <div class="flex gap-2 items-stretch">
               <div class="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="2em"
-                  viewBox="0 0 320 512"
+                  viewBox="0 0 640 512"
                   class="fill-[#8f959f]"
                 >
                   <path
@@ -59,17 +62,19 @@
               </div>
               <div>
                 <p class="text-lg">Real Feel</p>
-                <p class="text-5xl text-secondary font-bold">
+                <p
+                  class="text-4xl sm:text-3xl lg:text-5xl text-secondary font-bold"
+                >
                   {{ Math.round(weatherData?.main?.feels_like - 273.15) }}°
                 </p>
               </div>
             </div>
-            <div class="flex gap-2 items-stret">
+            <div class="flex gap-2">
               <div class="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="2em"
-                  viewBox="0 0 512 512"
+                  viewBox="0 0 640 512"
                   class="fill-[#8f959f]"
                 >
                   <path
@@ -79,7 +84,9 @@
               </div>
               <div>
                 <p class="text-lg">Wind</p>
-                <p class="text-5xl text-secondary font-bold">
+                <p
+                  class="text-4xl sm:text-3xl lg:text-5xl text-secondary font-bold"
+                >
                   {{ (weatherData?.wind?.speed * 3.6).toFixed(2) }} km/h
                 </p>
               </div>
@@ -99,7 +106,9 @@
               </div>
               <div>
                 <p class="text-lg">Cloudiness</p>
-                <p class="text-5xl text-secondary font-bold">
+                <p
+                  class="text-4xl sm:text-3xl lg:text-5xl text-secondary font-bold"
+                >
                   {{ weatherData?.clouds?.all }}%
                 </p>
               </div>
@@ -109,7 +118,7 @@
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   height="2em"
-                  viewBox="0 0 384 512"
+                  viewBox="0 0 640 512"
                   class="fill-[#8f959f]"
                 >
                   <path
@@ -119,7 +128,9 @@
               </div>
               <div>
                 <p class="text-lg">Humidity</p>
-                <p class="text-5xl text-secondary font-bold">
+                <p
+                  class="text-4xl sm:text-3xl lg:text-5xl text-secondary font-bold"
+                >
                   {{ weatherData?.main?.humidity }}%
                 </p>
               </div>
@@ -131,17 +142,20 @@
   </div>
 </template>
 <script lang="ts">
-import { ref, onMounted } from "vue";
-
+import AppHeader from "./src/components/AppHeader.vue";
 import { useWeather } from "./src/composable/useWeather";
 
 export default {
+  components: { AppHeader },
   name: "App",
   setup() {
     const { weatherData } = useWeather();
     return {
       weatherData,
     };
+  },
+  methods: {
+    iconRefresh() {},
   },
 };
 </script>
