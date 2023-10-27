@@ -5,6 +5,7 @@
 </template>
 <script lang="ts">
 export default {
+  name: "WeatherIcon",
   props: {
     icon: String,
   },

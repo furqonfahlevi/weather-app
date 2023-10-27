@@ -1,4 +1,3 @@
-import type { WeatherIcon } from '#build/components';
 <template>
   <div
     class="sm:w-3/4 mx-auto flex flex-col sm:flex-row justify-between items-center gap-8"
