@@ -1,47 +1,9 @@
 <template>
   <div class="w-full mx-auto flex flex-col justify-center items-center p-10">
-    <div class="w-full flex flex-col sm:flex-row items-center gap-4">
-      <img
-        class="w-[48px] h-[48px] hover:cursor-pointer"
-        src="./src/assets/images/icon.png"
-        alt="Weather App Icon"
-        @click="iconRefresh"
-      />
-      <h1 class="text-xl text-white invisible sm:visible">Weather App</h1>
-    </div>
+    <AppHeader />
     <div class="flex w-full mt-20 flex-col sm:flex-row gap-8">
       <div class="w-full px-2">
-        <div
-          class="sm:w-3/4 mx-auto flex flex-col sm:flex-row justify-between items-center gap-8"
-        >
-          <div class="flex flex-col gap-10">
-            <div class="flex flex-col gap-2">
-              <h1 class="text-2xl font-bold text-white sm:text-xl lg:text-5xl">
-                {{ weatherData?.name }}, {{ weatherData?.sys?.country }}
-              </h1>
-              <p class="text-primary font-light capitalize">
-                {{ weatherData?.weather[0]?.description }}
-              </p>
-            </div>
-            <div>
-              <p
-                class="text-7xl font-bold text-white text-center sm:text-left sm:text-5xl lg:text-7xl"
-              >
-                {{ Math.round(weatherData?.main?.temp - 273.15) }}°
-              </p>
-            </div>
-          </div>
-          <div>
-            <img
-              :src="
-                'https://openweathermap.org/img/wn/' +
-                weatherData?.weather[0]?.icon +
-                '@4x.png'
-              "
-              alt=""
-            />
-          </div>
-        </div>
+        <CurrentWeather :weatherData="weatherData" />
         <div
           class="sm:w-5/6 mx-auto flex flex-col gap-4 bg-secondary p-8 text-primary rounded-xl mt-8"
         >
@@ -142,22 +104,18 @@
   </div>
 </template>
 <script lang="ts">
-import AppHeader from "./src/components/AppHeader.vue";
-import { useWeather } from "./src/composable/useWeather";
+import AppHeader from "./components/AppHeader.vue";
+import CurrentWeather from "./components/CurrentWeather.vue";
+import { useWeather } from "./composable/useWeather";
 
 export default {
-  components: { AppHeader },
+  components: { AppHeader, CurrentWeather },
   name: "App",
   setup() {
     const { weatherData } = useWeather();
     return {
       weatherData,
     };
-  },
-  methods: {
-    iconRefresh() {
-      location.reload();
-    },
   },
 };
 </script>
