@@ -5,7 +5,7 @@
         class="w-[48px] h-[48px] hover:cursor-pointer"
         src="./src/assets/images/icon.png"
         alt="Weather App Icon"
-        onclick="iconRefresh()"
+        @click="iconRefresh"
       />
       <h1 class="text-xl text-white invisible sm:visible">Weather App</h1>
     </div>
@@ -155,7 +155,9 @@ export default {
     };
   },
   methods: {
-    iconRefresh() {},
+    iconRefresh() {
+      location.reload();
+    },
   },
 };
 </script>

@@ -4,6 +4,7 @@ export const useWeather = () => {
   const latitude = ref<number>();
   const longitude = ref<number>();
   const weatherData = ref();
+  const config = useRuntimeConfig();
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -26,7 +27,7 @@ export const useWeather = () => {
   };
 
   const getWeatherData = async () => {
-    const apiKey = "0f4e10acc115cb99e96f5a70c059d0b7";
+    const apiKey = config.public.openWeatherApiKey;
     const endpoint = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.value}&lon=${longitude.value}&appid=${apiKey}`;
 
     try {
