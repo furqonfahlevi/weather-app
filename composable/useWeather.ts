@@ -8,7 +8,7 @@ export const useWeather = () => {
   const config = useRuntimeConfig();
 
   const notifyUser = (message: string) => {
-    window.alert(message); // This uses the browser's default alert. Replace with your preferred method if needed.
+    window.alert(message);
   };
 
   const getUserLocation = () => {
@@ -34,7 +34,6 @@ export const useWeather = () => {
           latitude.value = position.coords.latitude;
           longitude.value = position.coords.longitude;
           getWeatherData();
-          isRequestSuccessful.value = true;
         },
         (error) => {
           console.error("Error Code = " + error.code + " - " + error.message);
@@ -60,6 +59,7 @@ export const useWeather = () => {
         notifyUser("API key is unauthorized. Please contact this dev.");
       } else {
         weatherData.value = data;
+        isRequestSuccessful.value = true;
       }
     } catch (error) {
       console.error("Error fetching weather data:", error);
