@@ -8,4 +8,9 @@ export default defineNuxtConfig({
       openWeatherApiKey: process.env.OPENWEATHER_API_KEY,
     },
   },
+  app: {
+    head: {
+      title: "Weather App by Levi",
+    },
+  },
 });

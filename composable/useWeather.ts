@@ -4,25 +4,48 @@ export const useWeather = () => {
   const latitude = ref<number>();
   const longitude = ref<number>();
   const weatherData = ref();
+  const isRequestSuccessful = ref(false);
   const config = useRuntimeConfig();
 
+  const notifyUser = (message: string) => {
+    window.alert(message); // This uses the browser's default alert. Replace with your preferred method if needed.
+  };
+
   const getUserLocation = () => {
+    const previousPermission = localStorage.getItem("locationPermission");
+
+    if (!previousPermission) {
+      const userConfirmation = window.confirm(
+        "This app requires access to your location to provide weather details. Do you wish to continue?"
+      );
+      if (!userConfirmation) {
+        localStorage.setItem("locationPermission", "denied");
+        return;
+      } else {
+        localStorage.setItem("locationPermission", "accepted");
+      }
+    } else if (previousPermission === "denied") {
+      return;
+    }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           latitude.value = position.coords.latitude;
           longitude.value = position.coords.longitude;
-          console.log(
-            `Latitude: ${latitude.value}, Longitude: ${longitude.value}`
-          );
           getWeatherData();
+          isRequestSuccessful.value = true;
         },
         (error) => {
           console.error("Error Code = " + error.code + " - " + error.message);
+          notifyUser(
+            "Error accessing geolocation. Please enable location access for this app."
+          );
         }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
+      notifyUser("Geolocation is not supported by this browser.");
     }
   };
 
@@ -33,9 +56,14 @@ export const useWeather = () => {
     try {
       const response = await fetch(endpoint);
       const data = await response.json();
-      weatherData.value = data;
+      if (data.cod === "401" || data.cod === 401) {
+        notifyUser("API key is unauthorized. Please contact this dev.");
+      } else {
+        weatherData.value = data;
+      }
     } catch (error) {
       console.error("Error fetching weather data:", error);
+      notifyUser("Error fetching weather data. Please try again later.");
     }
   };
 
@@ -47,5 +75,6 @@ export const useWeather = () => {
     latitude,
     longitude,
     weatherData,
+    isRequestSuccessful,
   };
 };
